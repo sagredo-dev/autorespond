@@ -1,0 +1,40 @@
+--- ../autorespond-2.0.5/autorespond.c	2003-09-18 22:17:57.000000000 +0200
++++ ./autorespond.c	2016-04-24 15:33:24.255879074 +0200
+@@ -4,8 +4,9 @@
+ 	Copyright 1998 Eric Huss
+ 	E-mail: e-huss@netmeridian.com
+ 
+-	Patched 2000 by Matthias Henze matthias@mhcsoftware.de
++	Patched 2000 by Matthias Henze <matthias@mhcsoftware.de>
+         Patched 2001 by Brad Dameron <bdameron@tscnet.com>
++        Patched 2016 by Joakim Karlsson <joakim@roffe.nu>
+ 
+ 	Usage:
+ 
+@@ -32,9 +33,11 @@
+ 					the new commandline options are optional by now
+ 					
+ 		BD 06/2001	2.0.0   Removed excess code, cleaned up some code
++		JKA 04/2016 2.0.6	Fixed Message-ID to comply with RFC
+ 		
+-	MH - Matthias Henze matthias@mhcsoftware.de
+-        BD - Brad Dameron <bdameron@tscnet.com>
++	MH - Matthias Henze <matthias@mhcsoftware.de>
++    BD - Brad Dameron <bdameron@tscnet.com>
++    JKA - Joakim Karlsson <joakim@roffe.nu>
+ 
+ 	TODO:
+ 
+@@ -259,9 +262,9 @@
+ 	dt = gmtime((long *)&msgwhen);
+ 	/*start outputting to qmail-queue
+ 	  date is in 822 format
+-	  message-id could be computed a little better*/
+-	fprintf(fdm,"Date: %u %s %u %02u:%02u:%02u -0000\nMessage-ID: <%lu.%u.blah>\n"
+-		,dt->tm_mday,montab[dt->tm_mon],dt->tm_year+1900,dt->tm_hour,dt->tm_min,dt->tm_sec,msgwhen,getpid() );
++	 */
++	fprintf(fdm,"Date: %u %s %u %02u:%02u:%02u -0000\nMessage-ID: <%lu.%u.autorespond@%s>\n"
++		,dt->tm_mday,montab[dt->tm_mon],dt->tm_year+1900,dt->tm_hour,dt->tm_min,dt->tm_sec,msgwhen,getpid(),getenv("LOCAL") );
+ 
+ 	mfp = fopen( msg, "rb" );
+ 	
