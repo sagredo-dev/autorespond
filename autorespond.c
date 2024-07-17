@@ -476,7 +476,9 @@ char *return_header( char *tag )
 
 			b = safe_realloc( b, len + 1);
 
-			sprintf( b, "%s%s:%s", b, act_header->tag, act_header->content );
+//			sprintf( b, "%s%s:%s", b, act_header->tag, act_header->content );
+			strcat( b, act_header->tag );
+			strcat( b, act_header->content );
 
 			b[len] = '\0';
 		}
