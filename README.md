@@ -1,4 +1,5 @@
-autorespond
+# autorespond
+
 Copyright 1998 Eric Huss
 Copyright 2000 Matthias Henze  matthias@mhcsoftware.de
 Copyright 2001 Brad Dameron <bdameron@tscnet.com>
@@ -47,9 +48,7 @@ This autoresponder also catches some other simple situations such as mail
 from a mailer-daemon, empty envelope sender, bulk precedence headers, etc. 
 
 
-
-INSTALL:
-=============
+## INSTALL:
 
 First thing, if your qmail distribution is not in /var/qmail, then edit
 autorespond.c and change QMAIL_LOCATION to point to the correct directory. 
@@ -66,9 +65,7 @@ make
 make install
 
 
-
-Usage:
-=============
+## Usage:
 
 Usage is as follows:
 
@@ -136,8 +133,7 @@ is where the log of messages goes.
 That should be it.
 
 
-Notes
-=====
+## Notes
 9/18/2003
 - If the maximum count has been reached, the autoresponse doesn't 
   get shipped out, but the message is still processed as usual.
