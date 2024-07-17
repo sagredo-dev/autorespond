@@ -600,9 +600,9 @@ char *TheDomain;
 	if ( *rpath == '$' )
 	{
 		rpath = safe_malloc( strlen(TheUser) + strlen(TheDomain) + 2);
-		strncpy( rpath, TheUser, strlen(TheUser) );
+		strncpy( rpath, TheUser, strlen(rpath) );
 		strncat( rpath, "@", 2 );
-		strncat( rpath, TheDomain, strlen(TheDomain) );
+		strncat( rpath, TheDomain, strlen(rpath) );
 	}
 
 	timer = time(NULL);
