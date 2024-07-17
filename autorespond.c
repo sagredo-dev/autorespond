@@ -379,7 +379,7 @@ void read_headers( FILE *fp )
 /*********************************************************
 ** find string in string - ignore case **/
 
-char *strcasestr( const char *_s1, const char *_s2 )
+char *strcasestr2( char *_s1, char *_s2 )
 {
 	char *s1;
 	char *s2;
@@ -422,7 +422,7 @@ char *inspect_headers( char * tag, char *ss )
 			if ( ss == (char *)NULL )
 				return act_header->content;
 
-			if ( strcasestr( act_header->content, ss ) != (char *)NULL )
+			if ( strcasestr2( act_header->content, ss ) != (char *)NULL )
 				return act_header->content;
 
 			return (char *)NULL;
@@ -443,7 +443,7 @@ char *get_content_boundary()
 	if ( (s = inspect_headers( "Content-Type", (char *)NULL )) == (char *)NULL) 
 		return (char *)NULL;
 
-	if ( (r = strcasestr( s, "boundary=" )) == (char *)NULL)
+	if ( (r = strcasestr2( s, "boundary=" )) == (char *)NULL)
 		return (char *)NULL;
 	
 	*(r+strlen(r)-2) = '\0'; /* delete quote at the end */
