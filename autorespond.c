@@ -376,7 +376,7 @@ void read_headers( FILE *fp )
 /*********************************************************
 ** find string in string - ignore case **/
 
-char *strcasestr( char *_s1, char *_s2 )
+char *strcasestr( const char *_s1, const char *_s2 )
 {
 	char *s1;
 	char *s2;
