@@ -599,7 +599,7 @@ char *TheDomain;
 	{
 		rpath = safe_malloc( strlen(TheUser) + strlen(TheDomain) + 2);
 		strncpy( rpath, TheUser, strlen(TheUser) );
-		strncat( rpath, "@", 1 );
+		strncat( rpath, "@", 2 );
 		strncat( rpath, TheDomain, strlen(TheDomain) );
 	}
 
