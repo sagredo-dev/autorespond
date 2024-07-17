@@ -34,9 +34,8 @@
 	- Fixed Message-ID to comply with RFC
 
 - RP 07/2024      2.0.7 
-	- Fixed several compilation warnings. Destination dir is now /usr/local
+	- Fixed several compilation warnings. 
+	- Destination dir is now /usr/local
 
-        MH - Matthias Henze <matthias@mhcsoftware.de>
-        BD - Brad Dameron <bdameron@tscnet.com>
-        JKA - Joakim Karlsson <joakim@roffe.nu>
-        RP - Roberto Puzzanghera <roberto dot puzzanghera at sagredo dot eu>
+
+MH - Matthias Henze <matthias@mhcsoftware.de> | BD - Brad Dameron <bdameron@tscnet.com> | JKA - Joakim Karlsson <joakim@roffe.nu> | RP - Roberto Puzzanghera <roberto dot puzzanghera at sagredo dot eu>
