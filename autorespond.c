@@ -7,6 +7,7 @@
 	Patched 2000 by Matthias Henze <matthias@mhcsoftware.de>
         Patched 2001 by Brad Dameron <bdameron@tscnet.com>
         Patched 2016 by Joakim Karlsson <joakim@roffe.nu>
+        Patched 2024 by Roberto Puzzanghera <roberto dot puzzanghera at sagredo dot eu>
 
 	Usage:
 
@@ -31,13 +32,14 @@
 		MH 07/2000	1.1.0	added from adrees commandline option
 		MH 07/2000	1.1.0a	changed back to 1.0.0 compatibility
 					the new commandline options are optional by now
-					
 		BD 06/2001	2.0.0   Removed excess code, cleaned up some code
-		JKA 04/2016 2.0.6	Fixed Message-ID to comply with RFC
-		
-	MH - Matthias Henze <matthias@mhcsoftware.de>
-    BD - Brad Dameron <bdameron@tscnet.com>
-    JKA - Joakim Karlsson <joakim@roffe.nu>
+		JKA 04/2016     2.0.6	Fixed Message-ID to comply with RFC
+                RP 07/2024      Fixed several compilation warnings. Destination dir is now /usr/local
+
+        MH - Matthias Henze <matthias@mhcsoftware.de>
+        BD - Brad Dameron <bdameron@tscnet.com>
+        JKA - Joakim Karlsson <joakim@roffe.nu>
+        RP - Roberto Puzzanghera <roberto dot puzzanghera at sagredo dot eu>
 
 	TODO:
 
