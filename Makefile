@@ -3,7 +3,7 @@ OPTS=-O2
 LIBS=
 CFLAGS=-Wall -g
 DESTDIR=
-PREFIX=$(DESTDIR)/usr
+PREFIX=/usr/local
 
 all: autorespond
 
