@@ -19,18 +19,17 @@ from a mailer-daemon, empty envelope sender, bulk precedence headers, etc.
 
 First thing, if your qmail distribution is not in /var/qmail, then edit
 autorespond.c and change QMAIL_LOCATION to point to the correct directory. 
+
 If you do not want to make use of the 2 optional commandline options edit 
 the 2 defines:
 
-DEFAULT_MH    -> corresponds to the "flag" optional parameter
-DEFAULT_FROM  -> connesponds to the "arsender" optional parameter
-
+- DEFAULT_MH    -> corresponds to the "flag" optional parameter
+- DEFAULT_FROM  -> connesponds to the "arsender" optional parameter
 
 There shouldn't be anything else to configure.  Compile: 
 
 make
 make install
-
 
 ## Usage:
 
