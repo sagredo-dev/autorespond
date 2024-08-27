@@ -1,6 +1,6 @@
 # autorespond
 
-Simple autoresponder for qmail.
+Simple autoresponder for `qmail`.
 
 ==============================================
 
@@ -28,14 +28,16 @@ the 2 defines:
 
 There shouldn't be anything else to configure.  Compile: 
 
+```
 make
 make install
+```
 
 ## Usage:
 
 Usage is as follows:
 
-autorespond time num message dir [ flag arsender ]
+``autorespond time num message dir [ flag arsender ]``
 
      time - amount of time to consider a message (in seconds)
      num - maximum number of messages to allow within time seconds
@@ -58,27 +60,26 @@ autorespond time num message dir [ flag arsender ]
 For example, in your ~alias directory, create a .qmail-help file with
 the following:
 
-
+```
 |autorespond 10000 5 help_message help_autorespond 1
 &your-email-address@company.com
-
+```
 
 This will allow up to five messages from the sender within about 3 hours 
 and include the original message as a quote.
 
+```
 |autorespond 10000 10 help_message help_autorespond 0 +
 &your-email-address@company.com
-
+```
 
 This will allow up to ten messages from the sender within about 3 hours and
 will NOT include the original message as a quote and will leave the from
 field blank.
 
-
 Create a file in your ~alias directory called help_message.  It should say
 something like this: 
-
-
+```
 From: Support <help@company.com>
 Subject: Help Response
 
@@ -86,7 +87,7 @@ This is a response to your help request.
 
 
 Below is a copy of the message we received.
-
+```
 --------
 
 Make sure that "From:" is the first line of the file.  You should probably
@@ -98,11 +99,9 @@ is where the log of messages goes.
 
 That should be it.
 
-
 ## Notes
 9/18/2003
 - If the maximum count has been reached, the autoresponse doesn't 
   get shipped out, but the message is still processed as usual.
   This is a change from older versions because it didn't make
   sense before.
-
