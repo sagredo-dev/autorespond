@@ -38,4 +38,5 @@
 	- Destination dir is now /usr/local
 
 
-MH - Matthias Henze <matthias@mhcsoftware.de> | BD - Brad Dameron <bdameron@tscnet.com> | JKA - Joakim Karlsson <joakim@roffe.nu> | RP - Roberto Puzzanghera roberto dot puzzanghera at sagredo dot eu
+MH - Matthias Henze <matthias@mhcsoftware.de>  
+BD - Brad Dameron <bdameron@tscnet.com>   JKA - Joakim Karlsson <joakim@roffe.nu>   RP - Roberto Puzzanghera roberto dot puzzanghera at sagredo dot eu
