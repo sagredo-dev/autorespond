@@ -37,6 +37,9 @@
 	- Fixed several compilation warnings. 
 	- Destination dir is now /usr/local
 
+- RP 07/2024      2.0.8
+        - gcc changed to cc
+
 
 MH - Matthias Henze <matthias@mhcsoftware.de>  
 BD - Brad Dameron <bdameron@tscnet.com>  
