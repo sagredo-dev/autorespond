@@ -1,7 +1,7 @@
-CC=gcc
+CC=cc
 OPTS=-O2
 LIBS=
-CFLAGS=-Wall -g
+CFLAGS=-g
 DESTDIR=
 PREFIX=/usr/local
 
