@@ -603,10 +603,6 @@ char *TheDomain;
 	if ( *rpath == '$' )
 	{
 		sprintf(buffer2, "%s@%s", TheUser, TheDomain);
-		/* rpath = malloc( strlen(TheUser) + strlen(TheDomain) + 2);
-		strcpy( rpath, TheUser );
-		strcat( rpath, "@" );
-		strcat( rpath, TheDomain );*/
 		rpath = buffer2;
 	}
 
