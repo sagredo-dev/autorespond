@@ -105,3 +105,6 @@ That should be it.
   get shipped out, but the message is still processed as usual.
   This is a change from older versions because it didn't make
   sense before.
+
+## More info and support
+To find more info and ask for support post a comment in [my blog](https://notes.sagredo.eu/en/qmail-notes-185/autorespond-24.html).
