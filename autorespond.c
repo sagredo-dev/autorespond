@@ -555,6 +555,7 @@ char filename[256];
 FILE * f;
 unsigned int message_handling = DEFAULT_MH;
 char buffer[256];
+char buffer2[256];
 char *content_boundary;
 char *rpath = DEFAULT_FROM;
 char *TheUser;
@@ -601,10 +602,8 @@ char *TheDomain;
 		rpath = "";
 	if ( *rpath == '$' )
 	{
-		rpath = safe_malloc( strlen(TheUser) + strlen(TheDomain) + 2);
-		strcpy( rpath, TheUser );
-		strcat( rpath, "@" );
-		strcat( rpath, TheDomain );
+		sprintf(buffer2, "%s@%s", TheUser, TheDomain);
+		rpath = buffer2;
 	}
 
 	timer = time(NULL);
