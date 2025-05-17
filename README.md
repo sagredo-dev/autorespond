@@ -15,7 +15,7 @@ This autoresponder also catches some other simple situations such as mail
 from a mailer-daemon, empty envelope sender, bulk precedence headers, etc. 
 
 
-## INSTALL:
+## Install
 
 First thing, if your qmail distribution is not in /var/qmail, then edit
 autorespond.c and change QMAIL_LOCATION to point to the correct directory. 
@@ -33,7 +33,7 @@ make
 make install
 ```
 
-## Usage:
+## Usage
 
 Usage is as follows:
 
