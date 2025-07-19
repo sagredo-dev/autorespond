@@ -107,4 +107,4 @@ That should be it.
   sense before.
 
 ## More info and support
-To find more info and ask for support post a comment in [my blog](https://notes.sagredo.eu/en/qmail-notes-185/autorespond-24.html).
+To find more info and ask for support post a comment in [my blog](https://www.sagredo.eu/en/qmail-notes-185/autorespond-24.html).
