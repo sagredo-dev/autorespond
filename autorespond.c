@@ -265,11 +265,22 @@ char msg_buffer[256];
 	/*start outputting to qmail-queue
 	  date is in 822 format
 	 */
-	fprintf(fdm,"Date: %u %s %u %02u:%02u:%02u -0000\nMessage-ID: <%lu.%u.autorespond@%s>\n"
-		,dt->tm_mday,montab[dt->tm_mon],dt->tm_year+1900,dt->tm_hour,dt->tm_min,dt->tm_sec,msgwhen,getpid(),getenv("LOCAL") );
+        const char *local = getenv("LOCAL");
+        if (!local || !*local) local = "localhost";
+        fprintf(fdm,
+           "Date: %u %s %u %02u:%02u:%02u -0000\nMessage-ID: <%lu.%u.autorespond@%s>\n",
+           dt->tm_mday, montab[dt->tm_mon], dt->tm_year+1900,
+           dt->tm_hour, dt->tm_min, dt->tm_sec,
+           msgwhen, getpid(), local);
 
 	mfp = fopen( msg, "rb" );
-	
+        if (!mfp) {
+          // Fecha os pipes antes de sair pra nao deixar lixo
+           fclose(fdm);
+           fclose(fde);
+           return -1;
+        }
+
 	while ( fgets( msg_buffer, sizeof(msg_buffer), mfp ) != NULL )
 	{
 		fprintf(fdm,"%s",msg_buffer);
@@ -337,6 +348,8 @@ void read_headers( FILE *fp )
 		{
 		case ' ' :
 		case '\t' : /* header continued */
+                        if (!act_header) // if there is no valid header, ignore it
+                                continue;
 			len = strlen( ptr ) + strlen(act_header->content);
 			act_header->content = safe_realloc( act_header->content, len + 1 );
 			strncat( act_header->content, ptr, len );
@@ -353,16 +366,16 @@ void read_headers( FILE *fp )
 
 			act_header->next = (headers *)NULL;
 
-			while( *ptr != ' ' && *ptr != '\t' )
-				ptr++;
+                        while (*ptr != ' ' && *ptr != '\t' && *ptr != '\0' && *ptr != '\n')
+                           ptr++;
 
 			/* strip a possible : */
 			len = ( *(ptr-1) == ':' ) ? ptr - h_buffer - 1 : ptr - h_buffer;
 
 			/* skip whitspaces */
-			while( *ptr == ' ' && *ptr == '\t' )
+                        while( *ptr == ' ' || *ptr == '\t' )
 				ptr++;
-	
+
 			act_header->tag = safe_malloc( len + 1 );
 			strncpy( act_header->tag, h_buffer, len );
 			act_header->tag[len] = '\0';
@@ -383,25 +396,36 @@ void read_headers( FILE *fp )
 
 char *strcasestr2( char *_s1, char *_s2 )
 {
-	char *s1;
-	char *s2;
-	char *ptr;
+        if (!_s1 || !_s2) return NULL;
 
-	s1 = strdup(_s1);
-	s2 = strdup(_s2);
+        char *s1 = strdup(_s1);
+        char *s2 = strdup(_s2);
+        char *ptr;
+        size_t off;
 
-	for ( ptr = s1; *ptr != '\0'; ptr++ )
-		*ptr = tolower( *ptr );
+        if (!s1 || !s2) {
+                free(s1);
+                free(s2);
+                return NULL;
+        }
 
-	for ( ptr = s2; *ptr != '\0'; ptr++ )
-		*ptr = tolower( *ptr );
+        for (ptr = s1; *ptr != '\0'; ptr++)
+                *ptr = tolower((unsigned char)*ptr);
 
-	ptr = strstr( s1, s2 );
+        for (ptr = s2; *ptr != '\0'; ptr++)
+                *ptr = tolower((unsigned char)*ptr);
 
-	if ( ptr == (char *)NULL )
-		return (char *)NULL;
-	else
-		return _s1 + (ptr - s1);
+        ptr = strstr(s1, s2);
+        if (!ptr) {
+                free(s1);
+                free(s2);
+                return NULL;
+        }
+
+        off = (size_t)(ptr - s1);
+        free(s1);
+        free(s2);
+        return _s1 + off;
 }
 
 
@@ -440,17 +464,34 @@ char *inspect_headers( char * tag, char *ss )
 ** returns the content boundary string for this message */
 char *get_content_boundary()
 {
-	char *s, *r;
+        char *s, *p, *start, *end;
+        s = inspect_headers("Content-Type", NULL);
+        if (!s) return NULL;
 
-	if ( (s = inspect_headers( "Content-Type", (char *)NULL )) == (char *)NULL) 
-		return (char *)NULL;
+        p = strcasestr2(s, "boundary=");
+        if (!p) return NULL;
 
-	if ( (r = strcasestr2( s, "boundary=" )) == (char *)NULL)
-		return (char *)NULL;
-	
-	*(r+strlen(r)-2) = '\0'; /* delete quote at the end */
+        p += 9; // jump "boundary="
 
-	return r+10; /* point to first cahr after quote */
+        // jump spaces
+        while (*p == ' ' || *p == '\t')
+                p++;
+
+        if (*p == '"') {
+                p++;
+                start = p;
+                end = strchr(p, '"');
+                if (!end) return NULL;
+                *end = '\0';
+                return start;
+        } else {
+                start = p;
+                end = p;
+                while (*end && *end != ';' && *end != '\r' && *end != '\n')
+                        end++;
+                *end = '\0';
+                return start;
+        }
 }
 
 
@@ -465,7 +506,7 @@ char *return_header( char *tag )
 	char *b;
 
 	act_header = header;
-	b     = (char *) malloc( 20 );
+        b     = (char *) safe_malloc( 20 );
 	*b    = '\0';
 
 	while ( act_header != (headers *)NULL )
@@ -580,7 +621,10 @@ char *TheDomain;
 
 	TheUser= getenv("EXT");
 	TheDomain= getenv("HOST");
- 
+
+        if (!TheUser)   TheUser   = "noreply";
+        if (!TheDomain) TheDomain = "mydomain.tld";
+
 	setvbuf(stderr, NULL, _IONBF, 0);
 
 	if(argc > 7 || argc < 5) {
@@ -593,17 +637,14 @@ char *TheDomain;
 	message_filename = argv[3];
 	dir              = argv[4];
 
-	if ( argc > 5 )
-		message_handling = strtoul(argv[5],NULL,10);
-	if ( argc > 6 )
-		rpath = argv[6];
+	if ( argc > 5 ) message_handling = strtoul(argv[5],NULL,10);
+	if ( argc > 6 ) rpath = argv[6];
 
-	if ( *rpath == '+' )
-		rpath = "";
-	if ( *rpath == '$' )
-	{
-		sprintf(buffer2, "%s@%s", TheUser, TheDomain);
-		rpath = buffer2;
+        if (*rpath == '+') {
+                   rpath = "";
+        } else if (*rpath == '$') {
+            snprintf(buffer2, sizeof(buffer2), "%s@%s", TheUser, TheDomain);
+            rpath = buffer2;
 	}
 
 	timer = time(NULL);
@@ -706,8 +747,11 @@ char *TheDomain;
 	sprintf(filename,"tmp%u.%u",getpid(),timer);
 	f = fopen(filename,"wb"); 
 
-	fprintf( f, "%sTo: %s\nFrom: %s\nSubject: Re:%s\n%s\n", 
-	            my_delivered_to, sender, rpath, inspect_headers( "Subject", (char *) NULL ), message );
+        char *subject = inspect_headers("Subject", NULL);
+        if (!subject) subject = "";   // fallback seguro
+
+        fprintf( f, "%sTo: %s\nFrom: %s\nSubject: Re:%s\n%s\n",
+                 my_delivered_to, sender, rpath, subject, message );
 
 	if ( message_handling == 1 ) {
 		fprintf( f, "%s\n\n", "-------- Original Message --------" );
